@@ -42,6 +42,8 @@ function renderQuiz(quiz, isSubmit = false) {
         currentIndex = arridquiz.findIndex((id) => id === quiz.id);
     }
 
+    const infoText = quiz.true_answer.length > 1 ? "Chọn 1 hoặc nhiều câu đúng" : "Chọn 1 câu đúng";
+
     const html = document.createElement("div");
     html.classList.add("quiz-container");
     html.innerHTML = `
@@ -53,6 +55,7 @@ function renderQuiz(quiz, isSubmit = false) {
         </div>
         <div class="question-section">
             <p class="question">${quiz.name}</p>
+            <p class="info1">${infoText}</p>
             <div class="options"></div>
         </div>
         <div class="navigation">
