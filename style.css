@@ -252,3 +252,7 @@ body {
     margin-bottom: 10px;
     color: var(--primary-color);
 }
+
+button {
+    touch-action: manipulation; /* Ngăn double-tap zoom */
+}
