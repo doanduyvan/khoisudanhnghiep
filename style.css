@@ -218,3 +218,37 @@ body {
     content: "* ";
     font-weight: bold;
 }
+
+.btn-options{
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-options .nav-btn{
+    color: black;
+    background-color: white;
+    border: 1px solid gray;
+}
+
+.btn-options .nav-btn.active{
+    color: white;
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.info2{
+    text-align: left;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.info3{
+    text-align: left;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}

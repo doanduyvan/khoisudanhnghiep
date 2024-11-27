@@ -1,9 +1,10 @@
 
 
-const arridquiz_origin = getQuestion().map((quiz) => quiz.id);
+let arridquiz_origin = getQuestion().map((quiz) => quiz.id);
 
 let arridquiz = getQuestion().map((quiz) => quiz.id);
 
+let globaltype = 2;
 
 // bien toan cuc luu trang thai hien tai cua quiz
 
@@ -11,7 +12,7 @@ let currentIndex = 0;
 let currentQuiz = null;
 let currentType = null;
 let currentResult = [];
-
+let sstanswertemp = null;
 
 // random array 
 
@@ -47,6 +48,12 @@ function renderQuiz(quiz, isSubmit = false) {
     const html = document.createElement("div");
     html.classList.add("quiz-container");
     html.innerHTML = `
+            <p class="info2">Phương pháp học lặp lại ngắt quãng</p>
+            <div class="btn-options">
+                <button class="nav-btn ${globaltype == 1 && "active"}" onclick="chooseType(1)">60 Câu đầu đã sửa</button>
+                <button class="nav-btn ${globaltype == 2 && "active"}" onclick="chooseType(2)">Tất cả</button>
+                <button class="nav-btn ${globaltype == 3 && "active"}" onclick="chooseType(3)">60 Câu sau ChatGPT</button>
+            </div>
             <div class="current_quiz">Câu: ${quiz.id}</div>
         <div class="progress-circle">
             <div class="circle">
@@ -57,6 +64,7 @@ function renderQuiz(quiz, isSubmit = false) {
             <p class="question">${quiz.name}</p>
             <p class="info1">${infoText}</p>
             <div class="options"></div>
+            <p class="info3">Các câu trả lời đã được xáo trộn</p>
         </div>
         <div class="navigation">
             <button class="nav-btn" onclick="nextandprev(false)">Prev</button>
@@ -80,7 +88,15 @@ function renderQuiz(quiz, isSubmit = false) {
     }
 }
 
-function compareAnswer(arr, typeInput, isSubmit = false) {
+function compareAnswer(arr1, typeInput, isSubmit = false) {
+    const arr2 = shuffleArrayIndexes(arr1);
+    let arr = arr2;
+    if(isSubmit){
+        arr = sstanswertemp;
+    }else{
+        sstanswertemp = arr2;
+    }
+
     const STT = ["A", "B", "C", "D"];
     const options = document.createElement("div");
     options.classList.add("options");
@@ -150,7 +166,7 @@ function submitAnswer() {
     }
     idTrueQuiz && modal("Chúc mừng bạn đã trả lời đúng", 2);
     idTrueQuiz || modal("Rất tiếc bạn đã trả lời sai", 2);
-    if(idTrueQuiz){
+    if (idTrueQuiz) {
         arridquiz = arridquiz.filter((id) => id !== idTrueQuiz);
     }
     renderQuiz(currentQuiz, true);
@@ -163,7 +179,7 @@ function nextandprev(isNext = true) {
     }
 
     let index = arridquiz.findIndex((id) => id === currentQuiz.id);
-    if(index === -1){
+    if (index === -1) {
         index = currentIndex;
         isNext && index--;
     }
@@ -181,7 +197,7 @@ function nextandprev(isNext = true) {
     renderQuiz(getQuestion(arridquiz[index]));
 }
 
-function resetall(){
+function resetall() {
     arridquiz = arridquiz_origin;
     renderQuiz(getQuestion(arridquiz[0]));
 }
@@ -227,6 +243,44 @@ function modal(text, time = 3) {
         });
     }, 1);
 
+}
+
+function chooseType(type) {
+    if (globaltype === type) {
+        return;
+    }
+    globaltype = type;
+    const allQuiz = getQuestion().map((quiz) => quiz.id);
+
+    if (type === 1) {
+        arridquiz_origin = allQuiz.filter((id) => id <= 60);
+        arridquiz = allQuiz.filter((id) => id <= 60);
+    }
+    if (type === 2) {
+        arridquiz_origin = [...allQuiz];
+        arridquiz = [...allQuiz];
+    }
+    if (type === 3) {
+        arridquiz_origin = allQuiz.filter((id) => id > 60);
+        arridquiz = allQuiz.filter((id) => id > 60);
+    }
+    renderQuiz(getQuestion(arridquiz[0]));
+}
+
+function shuffleArrayIndexes(array) {
+    // Tạo một mảng chứa các index của array
+    let indexes = array.map((_, index) => index);
+
+    // Sử dụng thuật toán Fisher-Yates để xáo trộn index
+    for (let i = indexes.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [indexes[i], indexes[j]] = [indexes[j], indexes[i]]; // Hoán đổi vị trí
+    }
+
+    // Tạo một mảng mới dựa trên thứ tự index đã xáo trộn
+    let shuffledArray = indexes.map(index => array[index]);
+
+    return shuffledArray;
 }
 
 function getQuestion(id = null) {
@@ -287,7 +341,7 @@ function getQuestion(id = null) {
         {
             id: 6,
             name: "Đâu thường KHÔNG PHẢI là đặc điểm chung của doanh nhân?",
-            true_answer: ["c"],
+            true_answer: ["a"],
             answers: [
                 { id: "a", text: "Giao tiếp xã hội tốt (Gregarious)" },
                 { id: "b", text: "Tự tin (Confidence)" },
@@ -364,7 +418,7 @@ function getQuestion(id = null) {
         {
             id: 13,
             name: "Kiểu tư duy của người Trung Quốc thường là?",
-            true_answer: ["c"],
+            true_answer: ["a"],
             answers: [
                 { id: "a", text: "Bi quan và không có khả năng xác định tương lai" },
                 { id: "b", text: "Bi quan và có khả năng xác định tương lai" },
@@ -441,7 +495,7 @@ function getQuestion(id = null) {
         {
             id: 20,
             name: "Các hình thức vốn có thể huy động cho khởi nghiệp bao gồm?",
-            true_answer: ["a", "b", "c", "d"],
+            true_answer: ["a", "c", "d"],
             answers: [
                 { id: "a", text: "Vốn riêng khởi nghiệp (bootstrapping)" },
                 { id: "b", text: "Vốn cổ phần (Equity)" },
@@ -474,7 +528,7 @@ function getQuestion(id = null) {
         {
             id: 23,
             name: "Yếu tố quyết định sự khác nhau giữa thị trường “đại dương đỏ” và “Đại dương xanh”:",
-            true_answer: ["b"],
+            true_answer: ["a"],
             answers: [
                 { id: "a", text: "Đối thủ cạnh tranh" },
                 { id: "b", text: "Chi phí sản xuất" },
@@ -485,7 +539,7 @@ function getQuestion(id = null) {
         {
             id: 24,
             name: "Nguyên lý hoạt động của phương pháp này là:",
-            true_answer: ["d"],
+            true_answer: ["b"],
             answers: [
                 { id: "a", text: "Bạn xây dựng 1 DN tinh gọn…" },
                 { id: "b", text: "Bạn đo lường phản ứng của khách hàng khi tiếp cận doanh nghiệp" },
@@ -496,7 +550,7 @@ function getQuestion(id = null) {
         {
             id: 25,
             name: "Các yếu tố nào sau đây cần được mô tả trong phần sản phẩm/dịch vụ (lựa chọn p.a đúng):",
-            true_answer: ["a", "b", "c"],
+            true_answer: ["a", "c", "d"],
             answers: [
                 { id: "a", text: "Chiến lược bao gói" },
                 { id: "b", text: "Cấu tạo giá thành sản xuất" },
@@ -518,7 +572,7 @@ function getQuestion(id = null) {
         {
             id: 27,
             name: "Khả năng mở rộng (scalability) là gì?",
-            true_answer: ["d"],
+            true_answer: ["c"],
             answers: [
                 { id: "a", text: "Doanh nghiệp của bạn tồn tại trên thị trường bao lâu" },
                 { id: "b", text: "Làm thế nào để dễ dàng có được khách hàng" },
@@ -529,7 +583,7 @@ function getQuestion(id = null) {
         {
             id: 28,
             name: "(…) là chỉ số thể hiện khả năng sinh lời, khả năng tăng trưởng doanh thu- lợi nhuận:",
-            true_answer: ["a"],
+            true_answer: ["b"],
             answers: [
                 { id: "a", text: "Hệ số biên lợi nhuận gộp (Gross profit margin)" },
                 { id: "b", text: "Hệ số biên lợi nhuận ròng (Net profit margin)" },
@@ -540,7 +594,7 @@ function getQuestion(id = null) {
         {
             id: 29,
             name: "Kiểu tư duy của người Trung Quốc thường là?",
-            true_answer: ["c"],
+            true_answer: ["d"],
             answers: [
                 { id: "a", text: "Lạc quan và có khả năng xác định tương lai" },
                 { id: "b", text: "Lạc quan và không có khả năng xác định tương lai" },
@@ -551,7 +605,7 @@ function getQuestion(id = null) {
         {
             id: 30,
             name: "[…] là chỉ số thể hiện khả năng sinh lời, khả năng tăng trưởng doanh thu - lợi nhuận, năng lực cạnh tranh của doanh nghiệp.",
-            true_answer: ["a"],
+            true_answer: ["b"],
             answers: [
                 { id: "a", text: "Hệ số biên lợi nhuận trước thuế và lãi vay (EBIT Margin)" },
                 { id: "b", text: "Hệ số biên lợi nhuận gộp (Gross Profit Margin)" },
@@ -606,7 +660,7 @@ function getQuestion(id = null) {
         {
             id: 35,
             name: "Các yếu tố nào sau đây cần được mô tả trong phần sản phẩm/dịch vụ (Product/Service) của bản kế hoạch kinh doanh? (Lựa chọn tất cả phương án đúng)",
-            true_answer: ["a", "b", "c", "d"],
+            true_answer: ["a", "b", "d"],
             answers: [
                 { id: "a", text: "Chiến lược bao gói" },
                 { id: "b", text: "Cấu tạo giá thành sản xuất" },
@@ -661,7 +715,7 @@ function getQuestion(id = null) {
         {
             id: 40,
             name: "Loại hình doanh nhân thường thấy trên tin tức báo chí, và công việc kinh doanh của họ mục đích cộng đồng:",
-            true_answer: ["b"],
+            true_answer: ["d"],
             answers: [
                 { id: "a", text: "Doanh nhân có phong cách sống" },
                 { id: "b", text: "Doanh nhân xã hội" },
@@ -672,7 +726,7 @@ function getQuestion(id = null) {
         {
             id: 41,
             name: "Bạn có thể định nghĩa nền kinh tế chia sẻ là như thế nào?",
-            true_answer: ["d"],
+            true_answer: ["c"],
             answers: [
                 { id: "a", text: "Cách rẻ nhất để mua những gì bạn cần" },
                 { id: "b", text: "Cho đi những thứ bạn không dùng nữa" },
@@ -760,7 +814,7 @@ function getQuestion(id = null) {
         {
             id: 49,
             name: "Mô hình kinh doanh truyền thống bao gồm? Lựa chọn 2 đáp án",
-            true_answer: ["b", "d"],
+            true_answer: ["a", "b"],
             answers: [
                 { id: "a", text: "Mô hình kinh doanh đại lý bán lẻ (retail business model)" },
                 { id: "b", text: "Mô hình nhượng quyền thương mại (franchise business model)" },
@@ -782,7 +836,7 @@ function getQuestion(id = null) {
         {
             id: 51,
             name: "\"Khả năng mở rộng\" là gì?",
-            true_answer: ["d"],
+            true_answer: ["b"],
             answers: [
                 { id: "a", text: "Doanh nghiệp của bạn sẽ tồn tại trên thị trường bao lâu" },
                 { id: "b", text: "Doanh nghiệp của bạn có thể phát triển dễ dàng như thế nào" },
@@ -804,7 +858,7 @@ function getQuestion(id = null) {
         {
             id: 53,
             name: "Sự khác biệt giữa nhận một khoản vay và nhận một khoản đầu tư vốn cổ phần là gì?",
-            true_answer: ["b"],
+            true_answer: ["d"],
             answers: [
                 { id: "a", text: "Không, bạn phải trả lại cả hai" },
                 { id: "b", text: "Một khoản đầu tư có thể mang lại cho bạn nhiều tiền hơn một khoản vay" },
@@ -826,7 +880,7 @@ function getQuestion(id = null) {
         {
             id: 55,
             name: "Tim Ferriss nói gì về kinh doanh phong cách sống?",
-            true_answer: ["c"],
+            true_answer: ["b"],
             answers: [
                 { id: "a", text: "Họ cần nhiều thời gian cam kết và tham gia" },
                 { id: "b", text: "Chúng được thiết kế để chỉ đáp ứng nhu cầu tài chính của bạn" },
@@ -867,8 +921,8 @@ function getQuestion(id = null) {
         },
         {
             id: 59,
-            name: "Ý tưởng kinh doanh này sinh dựa trên việc nhận diện những giá trị phù hợp giữa hai khía cạnh Kỹ năng và Sở thích tạo thành ý tưởng kinh doanh này là gì?",
-            true_answer: ["c"],
+            name: "Ý tưởng kinh doanh nảy sinh dựa trên việc nhận diện những giá trị phù hợp giữa hai khía cạnh Kỹ năng và Sở thích tạo thành ý tưởng kinh doanh này là gì?",
+            true_answer: ["a"],
             answers: [
                 { id: "a", text: "Ý tưởng kinh doanh dựa trên lợi ích (Benefit based business)" },
                 { id: "b", text: "Tưởng tượng về tương lai (Image the future)" },
@@ -887,6 +941,9 @@ function getQuestion(id = null) {
                 { id: "d", text: "Các phương pháp sử dụng để quảng bá sản phẩm, dịch vụ của mình" }
             ]
         },
+
+        // đã sửa 60 câu
+
         {
             id: 61,
             name: "Những yếu tố cấu thành thuộc mô hình kinh doanh. 3 đáp án",
