@@ -52,7 +52,7 @@ function renderQuiz(quiz, isSubmit = false) {
             <div class="btn-options">
                 <button class="nav-btn ${globaltype == 1 && "active"}" onclick="chooseType(1)">60 Câu đầu đã sửa</button>
                 <button class="nav-btn ${globaltype == 2 && "active"}" onclick="chooseType(2)">Tất cả</button>
-                <button class="nav-btn ${globaltype == 3 && "active"}" onclick="chooseType(3)">60 Câu sau ChatGPT</button>
+                <button class="nav-btn ${globaltype == 3 && "active"}" onclick="chooseType(3)">60 Câu sau đã sửa</button>
             </div>
             <div class="current_quiz">Câu: ${quiz.id}</div>
         <div class="progress-circle">
@@ -1035,7 +1035,7 @@ function getQuestion(id = null) {
         {
             id: 69,
             name: "Các yếu tố cơ bản cần được xác định trước khi viết kế hoạch kinh doanh là gì? (Lựa chọn tất cả phương án đúng)",
-            true_answer: ["a", "b", "c", "d"],
+            true_answer: ["a", "b", "d"],
             answers: [
                 { id: "a", text: "Người đọc bản kế hoạch kinh doanh" },
                 { id: "b", text: "Khách hàng mục tiêu" },
@@ -1101,7 +1101,7 @@ function getQuestion(id = null) {
         {
             id: 75,
             name: "Hầu hết các doanh nhân đều có cái mà chúng tôi gọi là “chấp nhận rủi ro” tỷ lệ doanh nghiệp khởi nghiệp thành công là bao nhiêu?",
-            true_answer: ["c"],
+            true_answer: ["b"],
             answers: [
                 { id: "a", text: "15%" },
                 { id: "b", text: "5%" },
@@ -1112,7 +1112,7 @@ function getQuestion(id = null) {
         {
             id: 76,
             name: "Để tạo ra sự khác biệt. Các công ty khởi nghiệp đã làm gì để tạo ra những cải tiến. Chọn TẤT CẢ phương án đúng",
-            true_answer: ["a", "b", "c", "d"],
+            true_answer: ["a", "b", "d"],
             answers: [
                 { id: "a", text: "Hệ thống sản phẩm ưu việt hơn" },
                 { id: "b", text: "Cung cấp các sản phẩm/dịch vụ tùy chỉnh hơn" },
@@ -1134,7 +1134,7 @@ function getQuestion(id = null) {
         {
             id: 78,
             name: "Khả năng thực thi là gì?",
-            true_answer: ["d"],
+            true_answer: ["c"],
             answers: [
                 { id: "a", text: "Bộ kỹ năng cụ thể bạn trong doanh nghiệp" },
                 { id: "b", text: "Khả năng đưa ra những ý tưởng tuyệt vời" },
@@ -1244,7 +1244,7 @@ function getQuestion(id = null) {
         {
             id: 88,
             name: "Các yếu tố nào sau đây cần được mô tả trong phần SP/DV (Chọn 3)",
-            true_answer: ["a", "b", "c"],
+            true_answer: ["a", "b", "d"],
             answers: [
                 { id: "a", text: "Chiến lược bao gói" },
                 { id: "b", text: "Cấu tạo giá thành sản xuất" },
@@ -1255,7 +1255,7 @@ function getQuestion(id = null) {
         {
             id: 89,
             name: "Yếu tố quyết định sự khác nhau giữa thị trường \"đại dương đỏ\" và \"đại dương xanh\" là",
-            true_answer: ["b"],
+            true_answer: ["a"],
             answers: [
                 { id: "a", text: "Đối thủ cạnh tranh" },
                 { id: "b", text: "Chi phí sản xuất" },
@@ -1277,7 +1277,7 @@ function getQuestion(id = null) {
         {
             id: 91,
             name: "Các hình thức vốn có thể huy động cho khởi nghiệp bao gồm. Chọn 3 đáp án",
-            true_answer: ["a", "b", "c"],
+            true_answer: ["a", "c", "d"],
             answers: [
                 { id: "a", text: "Vốn riêng khởi nghiệp (Bootstrapping)" },
                 { id: "b", text: "Vốn cổ phần (Equity)" },
@@ -1310,7 +1310,7 @@ function getQuestion(id = null) {
         {
             id: 94,
             name: "Kiểu tư duy của người Trung Quốc thường là",
-            true_answer: ["c"],
+            true_answer: ["a"],
             answers: [
                 { id: "a", text: "Bi quan và không có khả năng xác định tương lai" },
                 { id: "b", text: "Bi quan và có khả năng xác định tương lai" },
@@ -1365,7 +1365,7 @@ function getQuestion(id = null) {
         {
             id: 99,
             name: "Theo lời khuyên của chuyên gia, bản kế hoạch kinh doanh nên phân tích bao nhiêu yếu tố",
-            true_answer: ["a"],
+            true_answer: ["d"],
             answers: [
                 { id: "a", text: "6" },
                 { id: "b", text: "4" },
@@ -1409,7 +1409,7 @@ function getQuestion(id = null) {
         {
             id: 103,
             name: "Chìa khóa của các ngành công nghiệp cung cấp SP/DV tăng hiệu suất hơn là",
-            true_answer: ["b"],
+            true_answer: ["a","b","c"],
             answers: [
                 { id: "a", text: "Con người" },
                 { id: "b", text: "Khoa học, công nghệ" },
@@ -1420,7 +1420,7 @@ function getQuestion(id = null) {
         {
             id: 104,
             name: "… là các yếu tố làm ngắn cản các đối thủ cạnh tranh tiềm năng tham gia vào thị trường và cạnh tranh với công ty của bạn",
-            true_answer: ["b"],
+            true_answer: ["a","b","c"],
             answers: [
                 { id: "a", text: "Chi phí đầu tư" },
                 { id: "b", text: "Rào cản nhập ngành" },
@@ -1431,7 +1431,7 @@ function getQuestion(id = null) {
         {
             id: 105,
             name: "Chức năng của kênh phân phối bao gồm. Lựa chọn 3 đáp án",
-            true_answer: ["a", "b", "c"],
+            true_answer: ["b", "c", "d"],
             answers: [
                 { id: "a", text: "Giúp xây dựng nhận biết về dịch vụ hay SP" },
                 { id: "b", text: "Tạo điều kiện để khách hàng mua hàng" },
@@ -1475,7 +1475,7 @@ function getQuestion(id = null) {
         {
             id: 109,
             name: "Các yếu tố sau đây cần được mô tả trong phần sản phẩm, dịch vụ (Product/Service)",
-            true_answer: ["a", "b", "c", "d"],
+            true_answer: [ "b", "c", "d"],
             answers: [
                 { id: "a", text: "Chiến lược truyền thông cho SP/DV" },
                 { id: "b", text: "Đặc tính của SP/DV" },
