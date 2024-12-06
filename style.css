@@ -256,3 +256,7 @@ body {
 button {
     touch-action: manipulation; /* Ngăn double-tap zoom */
 }
+
+.hidden {
+    display: none;
+}

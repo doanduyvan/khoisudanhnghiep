@@ -85,13 +85,13 @@ function renderQuiz(quiz, isSubmit = false) {
             <p class="info3">Các câu trả lời đã được xáo trộn</p>
         </div>
         <div class="navigation">
-            <button class="nav-btn" onclick="nextandprev(false)">Prev</button>
+            <button class="nav-btn hidden" onclick="nextandprev(false)">Prev</button>
             <button class="nav-btn" onclick="randomQuiz()">Random</button>
-            <button class="nav-btn" onclick="nextandprev(true)">Next</button>
+            <button class="nav-btn hidden" onclick="nextandprev(true)">Next</button>
+            <button class="nav-btn submit" ${isSubmit ? "disabled" : ""}>Submit</button>
         </div>
         <div class="navigation-btn">
-            <button class="nav-btn" onclick="resetall()">Reset ALL</button>
-            <button class="nav-btn submit" ${isSubmit ? "disabled" : ""}>Submit</button>
+            <button class="nav-btn hidden" onclick="resetall()">Reset ALL</button>
         </div>
     `;
     const oldoptions = html.querySelector(".options");
