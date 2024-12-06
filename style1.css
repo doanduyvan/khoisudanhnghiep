@@ -134,9 +134,10 @@ body {
     justify-content: space-between;
 }
 
+.navigation button:disabled,
 .navigation-btn button:disabled{
-    background-color: gray;
-    cursor: not-allowed;
+    background-color: gray !important;
+    cursor: not-allowed !important;
 }
 
 @media (min-width: 768px) {
