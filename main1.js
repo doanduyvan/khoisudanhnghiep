@@ -14,6 +14,9 @@ let currentType = null;
 let currentResult = [];
 let sstanswertemp = null;
 
+const arrWrong = [];
+let Count = 0;
+
 // random array 
 
 
@@ -22,13 +25,28 @@ function randomQuiz() {
         return;
     }
     let randomElement;
-    while (true) {
-        randomElement = arridquiz[Math.floor(Math.random() * arridquiz.length)];
-        if (randomElement !== currentQuiz.id) {
+    if (arrWrong.length == 0 || Count != 4) {
+        while (true) {
+            randomElement = arridquiz[Math.floor(Math.random() * arridquiz.length)];
+            if (randomElement == currentQuiz.id) {
+                continue;
+            }
             break;
         }
+    } else {
+        randomElement = arrWrong.shift();
+        Count = 0;
     }
+    if (arrWrong.length > 0) {
+        Count++;
+        if (Count >= 5) {
+            Count = 0;
+        }
+    }
+
     renderQuiz(getQuestion(randomElement));
+    console.log('arrWrong: ', arrWrong);
+    console.log('Count: ', Count);
 }
 
 
@@ -91,9 +109,9 @@ function renderQuiz(quiz, isSubmit = false) {
 function compareAnswer(arr1, typeInput, isSubmit = false) {
     const arr2 = shuffleArrayIndexes(arr1);
     let arr = arr2;
-    if(isSubmit){
+    if (isSubmit) {
         arr = sstanswertemp;
-    }else{
+    } else {
         sstanswertemp = arr2;
     }
 
@@ -151,6 +169,7 @@ function compareAnswer(arr1, typeInput, isSubmit = false) {
 }
 
 function submitAnswer() {
+
     if (currentResult.length === 0) {
         modal("Chọn câu trả lời");
         return;
@@ -164,10 +183,17 @@ function submitAnswer() {
             idTrueQuiz = null;
         }
     }
+    if(currentQuiz.true_answer.length > 1 && currentResult.length != currentQuiz.true_answer.length){
+        idTrueQuiz = null;
+    }
     idTrueQuiz && modal("Chúc mừng bạn đã trả lời đúng", 2);
     idTrueQuiz || modal("Rất tiếc bạn đã trả lời sai", 2);
     if (idTrueQuiz) {
         arridquiz = arridquiz.filter((id) => id !== idTrueQuiz);
+    } else {
+        if (!arrWrong.includes(currentQuiz.id)) {
+            arrWrong.push(currentQuiz.id);
+        }
     }
     renderQuiz(currentQuiz, true);
 }
@@ -1409,7 +1435,7 @@ function getQuestion(id = null) {
         {
             id: 103,
             name: "Chìa khóa của các ngành công nghiệp cung cấp SP/DV tăng hiệu suất hơn là",
-            true_answer: ["a","b","c"],
+            true_answer: ["a", "b", "c"],
             answers: [
                 { id: "a", text: "Con người" },
                 { id: "b", text: "Khoa học, công nghệ" },
@@ -1420,7 +1446,7 @@ function getQuestion(id = null) {
         {
             id: 104,
             name: "… là các yếu tố làm ngắn cản các đối thủ cạnh tranh tiềm năng tham gia vào thị trường và cạnh tranh với công ty của bạn",
-            true_answer: ["a","b","c"],
+            true_answer: ["a", "b", "c"],
             answers: [
                 { id: "a", text: "Chi phí đầu tư" },
                 { id: "b", text: "Rào cản nhập ngành" },
@@ -1475,7 +1501,7 @@ function getQuestion(id = null) {
         {
             id: 109,
             name: "Các yếu tố sau đây cần được mô tả trong phần sản phẩm, dịch vụ (Product/Service)",
-            true_answer: [ "b", "c", "d"],
+            true_answer: ["b", "c", "d"],
             answers: [
                 { id: "a", text: "Chiến lược truyền thông cho SP/DV" },
                 { id: "b", text: "Đặc tính của SP/DV" },
