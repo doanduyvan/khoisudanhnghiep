@@ -21,9 +21,22 @@ let Count = 0;
 
 
 function randomQuiz() {
-    if (arridquiz.length <= 1) {
+    if (arridquiz.length == 0) {
+        if(arrWrong.length > 0){
+            const id = arrWrong.shift();
+            renderQuiz(getQuestion(id));
+        }else{
+            modal("Bạn đã hoàn thành tất cả câu hỏi", 5);
+        }
         return;
     }
+
+    if(arridquiz.length == 1){
+        renderQuiz(getQuestion(arridquiz[0]));
+        Count = 0;
+        return;
+    }
+
     let randomElement;
     if (arrWrong.length == 0 || Count != 4) {
         while (true) {
