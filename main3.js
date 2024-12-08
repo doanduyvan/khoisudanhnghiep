@@ -52,6 +52,7 @@ function randomQuiz() {
 
 renderQuiz(getQuestion(1));
 
+
 function renderQuiz(quiz, isSubmit = false) {
 
     if (!isSubmit) {
@@ -71,6 +72,7 @@ function renderQuiz(quiz, isSubmit = false) {
                 <button class="nav-btn ${globaltype == 1 && "active"}" onclick="chooseType(1)">60 Câu đầu đã sửa</button>
                 <button class="nav-btn ${globaltype == 2 && "active"}" onclick="chooseType(2)">Tất cả</button>
                 <button class="nav-btn ${globaltype == 3 && "active"}" onclick="chooseType(3)">60 Câu sau đã sửa</button>
+                <input type="number" class="nav-btn" placeholder="ID Câu Hỏi" id="inputID">
             </div>
             <div class="current_quiz">Câu: ${quiz.id}</div>
         <div class="progress-circle">
@@ -103,6 +105,16 @@ function renderQuiz(quiz, isSubmit = false) {
     const submit = html.querySelector(".nav-btn.submit");
     if (!isSubmit) {
         submit.onclick = submitAnswer;
+    }
+
+    const inputID = html.querySelector("#inputID");
+    inputID.onchange = function () {
+        const id = parseInt(inputID.value);
+        if (id && arridquiz_origin.includes(id)) {
+            renderQuiz(getQuestion(id));
+        } else {
+            modal("ID không hợp lệ");
+        }
     }
 }
 
@@ -576,7 +588,7 @@ function getQuestion(id = null) {
         {
             id: 25,
             name: "Các yếu tố nào sau đây cần được mô tả trong phần sản phẩm/dịch vụ (lựa chọn p.a đúng):",
-            true_answer: ["a", "c", "d"],
+            true_answer: ["a", "b", "d"],
             answers: [
                 { id: "a", text: "Chiến lược bao gói" },
                 { id: "b", text: "Cấu tạo giá thành sản xuất" },
