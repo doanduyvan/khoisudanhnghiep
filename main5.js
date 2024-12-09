@@ -1284,7 +1284,7 @@ function getQuestion(id = null) {
         {
             id: 87,
             name: "[..] là chỉ số thể hiện khả năng sinh lời, khả năng tăng trưởng doanh thu - lợi nhuận của DN",
-            true_answer: ["a"],
+            true_answer: ["b"],
             answers: [
                 { id: "a", text: "Hệ số biên lợi nhuận gộp (Gross Profit Margin)" },
                 { id: "b", text: "Hệ số biên lợi nhuận ròng (Net Profit Margin)" },
